@@ -96,10 +96,8 @@
         return node;
       }
 
-      // Other functions for tree traversal and rendering can be added here
     }
 
-    // Function to visualize the BST
     function visualizeBST(root) {
       const container = document.getElementById('bst-container');
       container.innerHTML = '';
@@ -120,10 +118,8 @@
       inOrderTraversal(root);
     }
 
-    // BST instance
     const bst = new BST();
 
-    // Function to add a node to the BST
     function addNode() {
       const value = prompt('Enter node value:');
       if (value !== null) {
@@ -132,7 +128,6 @@
       }
     }
 
-    // Function to delete a node from the BST
     function deleteNode() {
       const value = prompt('Enter node value to delete:');
       if (value !== null) {
@@ -141,7 +136,6 @@
       }
     }
 
-    // Initial visualization
     visualizeBST(bst.root);
   </script>
 </body>
