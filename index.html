@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Binary Search Tree</title>
+  <style>
+    /* Add your styles here */
+    #bst-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80vh;
+    }
+
+    .node {
+      width: 40px;
+      height: 40px;
+      border: 1px solid #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 5px;
+    }
+  </style>
+</head>
+<body>
+    <button onclick="addNode()">Add Node</button>
+    <button onclick="deleteNode()">Delete Node</button>
+    <br>
+    <div id="bst-container"></div>
+
+  <script>
+    class Node {
+      constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+      }
+    }
+
+    class BST {
+      constructor() {
+        this.root = null;
+      }
+
+      addNode(value) {
+        this.root = this._addNode(this.root, value);
+      }
+
+      _addNode(node, value) {
+        if (node === null) {
+          return new Node(value);
+        }
+
+        if (value < node.value) {
+          node.left = this._addNode(node.left, value);
+        } else if (value > node.value) {
+          node.right = this._addNode(node.right, value);
+        }
+
+        return node;
+      }
+
+      deleteNode(value) {
+        this.root = this._deleteNode(this.root, value);
+      }
+
+      _deleteNode(node, value) {
+        if (node === null) {
+          return null;
+        }
+
+        if (value < node.value) {
+          node.left = this._deleteNode(node.left, value);
+        } else if (value > node.value) {
+          node.right = this._deleteNode(node.right, value);
+        } else {
+          if (node.left === null) {
+            return node.right;
+          } else if (node.right === null) {
+            return node.left;
+          }
+
+          node.value = this._findMin(node.right).value;
+          node.right = this._deleteNode(node.right, node.value);
+        }
+
+        return node;
+      }
+
+      _findMin(node) {
+        while (node.left !== null) {
+          node = node.left;
+        }
+        return node;
+      }
+
+      // Other functions for tree traversal and rendering can be added here
+    }
+
+    // Function to visualize the BST
+    function visualizeBST(root) {
+      const container = document.getElementById('bst-container');
+      container.innerHTML = '';
+
+      function inOrderTraversal(node) {
+        if (node !== null) {
+          inOrderTraversal(node.left);
+
+          const nodeElement = document.createElement('div');
+          nodeElement.className = 'node';
+          nodeElement.textContent = node.value;
+          container.appendChild(nodeElement);
+
+          inOrderTraversal(node.right);
+        }
+      }
+
+      inOrderTraversal(root);
+    }
+
+    // BST instance
+    const bst = new BST();
+
+    // Function to add a node to the BST
+    function addNode() {
+      const value = prompt('Enter node value:');
+      if (value !== null) {
+        bst.addNode(parseInt(value, 10));
+        visualizeBST(bst.root);
+      }
+    }
+
+    // Function to delete a node from the BST
+    function deleteNode() {
+      const value = prompt('Enter node value to delete:');
+      if (value !== null) {
+        bst.deleteNode(parseInt(value, 10));
+        visualizeBST(bst.root);
+      }
+    }
+
+    // Initial visualization
+    visualizeBST(bst.root);
+  </script>
+</body>
+</html>
